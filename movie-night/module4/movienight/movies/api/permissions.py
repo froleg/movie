@@ -1,5 +1,5 @@
 from rest_framework import permissions
-
+from movies.models import MovieNight, MovieNightInvitation
 
 class UserFieldPermission(permissions.BasePermission):
     user_field = None
@@ -13,8 +13,9 @@ class UserFieldPermission(permissions.BasePermission):
 
 
 class IsCreatorPermission(UserFieldPermission):
-    pass
+    user_field = "creator"
+    
 
 
 class IsInviteePermission(UserFieldPermission):
-    pass
+    user_field = "invitee"

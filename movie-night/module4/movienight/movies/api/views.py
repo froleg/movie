@@ -4,6 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from movies.omdb_integration import fill_movie_details
+from movies.api.permissions import IsCreatorPermission, IsInviteePermission
+from rest_framework.permissions import IsAuthenticated
 
 from movies.api.serializers import (
     MovieSerializer,
@@ -51,7 +53,7 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
 
 class MovieNightViewSet(viewsets.ModelViewSet):
     queryset = MovieNight.objects.all()
-
+    permission_classes = [IsCreatorPermission&IsAuthenticated]
     def get_serializer_class(self):
         if self.action in ("create"):
             return MovieNightCreateSerializer
@@ -118,6 +120,7 @@ class MovieNightInvitationViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
+    permission_classes = [IsInviteePermission&IsAuthenticated]
     serializer_class = MovieNightInvitationSerializer
 
     def get_queryset(self):

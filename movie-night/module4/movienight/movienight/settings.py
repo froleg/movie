@@ -53,6 +53,8 @@ class Dev(Configuration):
         "movies",
         "rest_framework",
         "rest_framework.authtoken",
+        "django_celery_results",
+        'django_celery_beat',
     ]
 
     MIDDLEWARE = [
@@ -191,4 +193,6 @@ class Dev(Configuration):
             "rest_framework.filters.OrderingFilter"
         ],
 
-  }
+    }
+    CELERY_RESULT_BACKEND = "django-db"
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
